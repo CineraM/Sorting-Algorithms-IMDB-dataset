@@ -13,267 +13,193 @@ column_names= ['tconst', 'primaryTitle', 'originalTitle', 'startYear',
                'category', 'job', 'seasonNumber', 'episodeNumber', 'primaryName', 'birthYear',
                'deathYear', 'primaryProfession']
 
+# comparison function
+# If first element is less than second return true, else false.
+def is_less(d1, d2, columns):
+    cur_idx = 0
+    while(True):
+        try:
+            if d1[columns[cur_idx]] < d2[columns[cur_idx]]:
+                return True
+            elif d1[columns[cur_idx]] == d2[columns[cur_idx]]:
+                cur_idx += 1
+            else:
+                return False
+        except:
+            return False
 
-#############################################################################################################
-# Data Filtering
-#############################################################################################################
-def data_filtering(filelocation, num):
-    """
-    Data Filtering is for the test cases from 7 to 10.
-    filelocation: imdb_dataset.csv location
-    num: if num == 1 -> filter data based on years (years in range 1941 to 1955)
-            if num == 2 -> filter data based on genres (genres are either ‘Adventure’ or ‘Drama’)
-            if num == 3 -> filter data based on primaryProfession (if primaryProfession column contains substrings
-                        {‘assistant_director’, ‘casting_director’, ‘art_director’, ‘cinematographer’} )
-            if num == 4 -> filter data based on primary Names which start with vowel character.
+# Quick Sort
+# https://www.geeksforgeeks.org/python-program-for-quicksort/
+# based of ^
+def pivot_element(arr, low, high, columns):
+    pivot = arr[high]
+    i = low-1
 
-    """
-    df = # Load the imdb_dataset.csv dataset
-    if(num==1):
-        #NEED TO CODE
-        #Implement your logic here for Filtering data based on years (years in range 1941 to 1955)
-        df_year = #Store your filtered dataframe here
-        df_year.reset_index(drop=True).to_csv("imdb_years_df.csv", index=False)
+    for j in range(low, high):
+        # if arr[j][columns[0]] < pivot[columns[0]]:
+        if is_less(arr[j], pivot, columns): # ^
+            i = i+1
+            arr[i], arr[j] = arr[j], arr[i]
 
-    if(num==2):
-        #NEED TO CODE
-        #Implement your logic here for Filtering data based on genres (genres are either ‘Adventure’ or ‘Drama’)
-        df_genres = #Store your filtered dataframe here
-        df_genres.reset_index(drop=True).to_csv("imdb_genres_df.csv", index=False)
-    if(num==3):
-        #NEED TO CODE
-        #Implement your logic here for Filtering data based on primaryProfession (if primaryProfession column contains
-        #substrings {‘assistant_director’, ‘casting_director’, ‘art_director’, ‘cinematographer’} )
-        df_professions = #Store your filtered dataframe here
-        df_professions.reset_index(drop=True).to_csv("imdb_professions_df.csv", index=False)
-    if(num==4):
-        #NEED TO CODE
-        #Implement your logic here for Filtering data based on primary Names which start with vowel character.
-        df_vowels = #Store your filtered dataframe here
-        df_vowels.reset_index(drop=True).to_csv("imdb_vowel_names_df.csv", index=False)
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
 
+    return i+1
 
-#############################################################################################################
-#Quick Sort
-#############################################################################################################
-def pivot_element(arr):
-    #CODE For identifiying the pivot element
-    return pivot
+def quicksort_recursive(arr, low, high, columns):
+    if low < high:
+        # Find pivot element such that
+        # element smaller than pivot are on the left
+        # element greater than pivot are on the right
+        pi = pivot_element(arr, low, high, columns)
+        # Recursive call on the left of pivot
+        quicksort_recursive(arr, low, pi - 1, columns)
+        # Recursive call on the right of pivot
+        quicksort_recursive(arr, pi + 1, high, columns)
+
 def quicksort(arr, columns):
-    """
-    The function performs the QuickSort algorithm on a 2D array (list of lists), where
-    the sorting is based on specific columns of the 2D array. The function takes two parameters:
-
-    arr: a list of lists representing the 2D array to be sorted
-    columns: a list of integers representing the columns to sort the 2D array on
-
-    The function first checks if the length of the input array is less than or equal to 1,
-    in which case it returns the array as is. Otherwise, it selects the middle element of
-    the array as the pivot, and splits the array into three parts: left, middle, right.
-
-    Finally, the function calls itself recursively on the left and right sub-arrays, concatenates
-    the result of the recursive calls with the middle sub-array, and returns the final sorted 2D array.
-    """
-    if len(arr) <= 1:
-        return arr
-    pivot = pivot_element(arr)
-    #NEED TO CODE
-    #Implement Quick Sort Algorithm
-    #return Sorted array
+    n = len(arr)
+    quicksort_recursive(arr, 0, n - 1, columns)
     return arr
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
 
-#############################################################################################################
-#Selection Sort
-#############################################################################################################
+# Selection Sort
 def selection_sort(arr, columns):
-    """
-    arr: a list of lists representing the 2D array to be sorted
-    columns: a list of integers representing the columns to sort the 2D array on
-    Finally, returns the final sorted 2D array.
-    """
-    #NEED TO CODE
-    #Implement Selection Sort Algorithm
-    #return Sorted array
+    n = len(arr)
+    
+    # 2d - arr, always increase by one 
+    for i in range(0, n):
+        min_idx = i
+        for j in range(i+1, n):
+            # if arr[j][columns[0]] <= arr[min_idx][columns[0]]:
+            if is_less(arr[j], arr[min_idx], columns):#^
+                min_idx = j
+            
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+
     return arr
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
 
-#############################################################################################################
-#Heap Sort
-#############################################################################################################
+# https://www.geeksforgeeks.org/heap-sort/
+# Heap Sort - based on ^^^
 def max_heapify(arr, n, i, columns):
-    """
-    arr: the input array that represents the binary heap
-    n: The number of elements in the array
-    i: i is the index of the node to be processed
-    columns: The columns to be used for comparison
+    max = i
+    # left and right children of node i
+    l = 2 * i + 1 
+    r = 2 * i + 2
 
-    The max_heapify function is used to maintain the max heap property
-    in a binary heap. It takes as input a binary heap stored in an array,
-    and an index i in the array, and ensures that the subtree rooted at
-    index i is a max heap.
-    """
+    if l < n and is_less(arr[max], arr[l], columns):
+        max = l
 
+    if r < n and is_less(arr[max], arr[r], columns):
+        max = r
+
+    if max != i:
+        arr[i], arr[max] = arr[max], arr[i]
+        max_heapify(arr, n, max, columns)
 
 def build_max_heap(arr, n, i, columns):
-    """
-    arr: The input array to be transformed into a max heap
-    n: The number of elements in the array
-    i: The current index in the array being processed
-    columns: The columns to be used for comparison
 
-    The build_max_heap function is used to construct a max heap
-    from an input array.
-    """
-    #NEED TO CODE
-    #Implement heapify algorithm here
+    first_idx = n // 2 -1
+    for j in range(first_idx, -1, -1):
+        max_heapify(arr, n, j, columns)
+
 
 def heap_sort(arr, columns):
-    """
-    # arr: list of sublists which consists of records from the dataset in every sublists.
-    # columns: store the column indices from the dataframe.
-    Finally, returns the final sorted 2D array.
-    """
-    #NEED TO CODE
-    #Implement Heap Sort Algorithm
-    #return Sorted array
+    n = len(arr)
+    build_max_heap(arr, n, -1, columns)
+    
+    # One by one extract elements
+    for i in range(n-1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]  # swap
+        max_heapify(arr, i, 0, columns)
     return arr
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
 
-#############################################################################################################
-#Shell Sort
-#############################################################################################################
+# https://www.geeksforgeeks.org/python-program-for-shellsort/
+# based from ^
+# Shell Sort
 def shell_sort(arr, columns):
-    """
-    arr: a list of lists representing the 2D array to be sorted
-    columns: a list of integers representing the columns to sort the 2D array on
-    Finally, returns the final sorted 2D array.
-    """
-    #NEED TO CODE
-    #Implement Shell Sort Algorithm
-    #return Sorted array
+    n = len(arr)
+    gap = int(n/2)
+ 
+    while gap > 0:
+ 
+        for i in range(gap, n):
+ 
+            key = arr[i]
+            j = i
+            while j >= gap and is_less(key, arr[j-gap], columns):
+                arr[j] = arr[j-gap]
+                j -= gap
+ 
+            arr[j] = key
+        gap /= 2
+        gap = int(gap)
+    
     return arr
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
 
-#############################################################################################################
+#https://www.w3resource.com/python-exercises/data-structures-and-algorithms/python-search-and-sorting-exercise-8.php
 #Merge Sort
-#############################################################################################################
-def merge(left, right, columns):
-    """
-    left: a list of lists representing the left sub-array to be merged
-    right: a list of lists representing the right sub-array to be merged
-    columns: a list of integers representing the columns to sort the 2D array on
+def merge(arr, left, right, columns):
+    i=j=k=0       
+    while i < len(left) and j < len(right):
+        if is_less(left[i], right[j], columns):
+            arr[k]=left[i]
+            i+=1
+        else:
+            arr[k]=right[j]
+            j+=1
+        k+=1
 
-    Finally, after one of the sub-arrays is fully merged, the function extends the result
-    with the remaining elements of the other sub-array and returns the result as the final
-    sorted 2D array.
-    """
-    #NEED TO CODE
-    #Implement merge Logic
-    #return Sorted array
+    while i < len(left):
+        arr[k]=left[i]
+        i+=1
+        k+=1
 
-def merge_sort(data, columns):
-    """
-    data: a list of lists representing the 2D array to be sorted
-    columns: a list of integers representing the columns to sort the 2D array on
-    Finally, the function returns the result of the merge operation as the final sorted 2D array.
-    """
-    #NEED TO CODE
-    if len(data) <= 1:
-        return data
-    mid = #Mid value
-    #Need to Code
-    #Implement Merge Sort Algorithm
-    #return Sorted array
-    return merge(left, right, columns)
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
+    while j < len(right):
+        arr[k]=right[j]
+        j+=1
+        k+=1
 
-#############################################################################################################
-#Insertion Sort
-#############################################################################################################
-def insertion_sort(arr, columns):
-    """
-    # arr: list of sublists which consists of records from the dataset in every sublists.
-    # columns: store the column indices from the dataframe.
-    Finally, returns the final sorted 2D array.
-    """
-    #NEED TO CODE
-    #Insertion Sort Implementation
-    #Return : List of tconst values which are obtained after sorting the dataset.
+def merge_sort_recursive(arr, columns):
+    if len(arr) > 1:
+        mid = len(arr)//2
+        left = arr[:mid]
+        right = arr[mid:]
+        merge_sort_recursive(left, columns)
+        merge_sort_recursive(right, columns)
+        merge(arr, left, right, columns)
+
+def merge_sort(arr, columns):
+    merge_sort_recursive(arr, columns)
     return arr
-    #Output Returning array should look like [['tconst','col1','col2'], ['tconst','col1','col2'], ['tconst','col1','col2'],.....]
-    #column values in sublist must be according to the columns passed from the testcases.
 
-#############################################################################################################
-# Sorting Algorithms Function Calls
-#############################################################################################################
+
+# https://www.geeksforgeeks.org/python-program-for-insertion-sort/
+# based of ^
+# insertion_sort
+def insertion_sort(arr, columns):
+    n = len(arr)
+    for i in range(1, n):
+        
+        key = arr[i]
+        j = i-1
+        # key[columns[0]] < arr[j][columns[0]]
+        while j >= 0 and is_less(key, arr[j], columns):
+                arr[j+1] = arr[j]
+                j -= 1
+        arr[j+1] = key
+    
+    return arr
+
+#columns: a list of integers representing the columns to sort the 2D array on
+def get_col_indx(columns):
+    list = [0] 
+    for i in columns: list.append(column_names.index(i))
+    return list
+
 def sorting_algorithms(file_path, columns, select):
-    """
-    # file_path: a string representing the path to the CSV file
-    # columns: a list of strings representing the columns to sort the 2D array on
-    # select: an integer representing the sorting algorithm to be used
+    column_vals = get_col_indx(columns)
+    data = list(csv.reader(open(file_path)))
+    data.pop(0) # remove the headers of the array
 
-    # colum_vals: is a list of integers representing the indices of the specified columns to be sorted.
-
-    # data: is a 2D array of values representing the contents of the CSV file, with each row in
-    the array corresponding to a row in the CSV file and each element in a row corresponding to a value
-    in a specific column.
-
-    More Detailed Description:
-
-    df= #read imdb_dataset.csv data set using pandas library
-
-    column_vals = #convert the columns strings passed from the test cases in the form of indices according to
-                  #the imdb_dataset indices for example tconst column is in the index 0. Apart from the testcase
-                  #Columns provided you must also include 0 column in the first place of list in column_vals
-                  #for example if you have provided with columns {'startYear', 'primaryTitle'} which are in the
-                  #indices {3,1}. So the column_vals should look like [0,3,1].
-
-    data = #convert the dataframes into list of sublists, each sublist consists of values corresponds to
-           #the particular columns which are passed from the test cases. In addition to these columns, each
-           #sublist should consist of tconst values which are used to identify each column uniquely.
-           #At the end of sorting all the rows in the dataset by using any algorithm you need to
-           #Return : List of tconst strings which are obtained after sorting the dataset.
-           #Example data looks like [['tconst string 1', 'startYear value 1', 'primaryTitle String 1'],
-                                    #['tconst string 1', 'startYear value 1', 'primaryTitle String 1'],
-                                    #................so on ]
-                                    # NOTE : tconst string value must be in first position of every sublist and
-                                    # the other provided column values with respect to columns from the provided
-                                    # test cases must be after the tconst value in every sublist. Every sublist
-                                    # Represents one record or row from the imdb_dataset.csv (sublist of values).
-    """
-    #NEED TO CODE
-    #Read imdb_dataset.csv
-    #write code here Inorder to read imdb_dataset
-    df= #read imdb_dataset.csv data set using pandas library
-
-    column_vals = #convert the columns strings passed from the test cases in the form of indices according to
-                  #the imdb_dataset indices for example tconst column is in the index 0. Apart from the testcase
-                  #Columns provided you must also include 0 column in the first place of list in column_vals
-                  #for example if you have provided with columns {'startYear', 'primaryTitle'} which are in the
-                  #indices {3,1}. So the column_vals should look like [0,3,1].
-
-    data = #convert the dataframes into list of sublists, each sublist consists of values corresponds to
-           #the particular columns which are passed from the test cases. In addition to these columns, each
-           #sublist should consist of tconst values which are used to identify each column uniquely.
-           #At the end of sorting all the rows in the dataset by using any algorithm you need to
-           #Return : List of tconst strings which are obtained after sorting the dataset.
-           #Example data looks like [['tconst string 1', 'startYear value 1', 'primaryTitle String 1'],
-                                    #['tconst string 1', 'startYear value 1', 'primaryTitle String 1'],
-                                    #................so on ]
-                                    # NOTE : tconst string value must be in first position of every sublist and
-                                    # the other provided column values with respect to columns from the provided
-                                    # test cases must be after the tconst value in every sublist. Every sublist
-                                    # Represents one record or row from the imdb_dataset.csv (sublist of values).
-
-#############################################################################################################
-# Donot Modify Below Code
-#############################################################################################################
     if(select==1):
         start_time = time.time()
         output_list = insertion_sort(data, column_vals)
@@ -310,3 +236,6 @@ def sorting_algorithms(file_path, columns, select):
         end_time = time.time()
         time_in_seconds = end_time - start_time
         return [time_in_seconds, list(map(lambda x: x[0], output_list))]
+
+def data_filtering():
+    pass
