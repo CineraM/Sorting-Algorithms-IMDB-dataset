@@ -225,6 +225,7 @@ def testcase_6_1():
     global total
     global f
     testcase_6_1 = sorting_algorithms("imdb_dataset.csv", ['startYear'], 6)
+
     if(data["testcase_6_1"][1]==testcase_6_1[1]):
         print("\nTestCase 6_1 Passed and your Algorithm Time Complexity = {}".format(testcase_6_1[0]))
     else:
@@ -611,18 +612,18 @@ testcase = {}
 # testcase['testcase_2_1'] = testcase_2_1() # pass
 # testcase['testcase_2_2'] = testcase_2_2() # pass
 # testcase['testcase_2_3'] = testcase_2_3() # pass
-# testcase['testcase_3_1'] = testcase_3_1()
-# testcase['testcase_3_2'] = testcase_3_2()
-# testcase['testcase_3_3'] = testcase_3_3()
-# testcase['testcase_4_1'] = testcase_4_1()
-# testcase['testcase_4_2'] = testcase_4_2()
-# testcase['testcase_4_3'] = testcase_4_3()
+testcase['testcase_3_1'] = testcase_3_1() # rec error
+testcase['testcase_3_2'] = testcase_3_2() # rec error
+testcase['testcase_3_3'] = testcase_3_3() # rec error
+# testcase['testcase_4_1'] = testcase_4_1() # pass
+# testcase['testcase_4_2'] = testcase_4_2() # pass
+# testcase['testcase_4_3'] = testcase_4_3() # pass
 # testcase['testcase_5_1'] = testcase_5_1() # pass
 # testcase['testcase_5_2'] = testcase_5_2() # pass
 # testcase['testcase_5_3'] = testcase_5_3() # pass
-# testcase['testcase_6_1'] = testcase_6_1()
-# testcase['testcase_6_2'] = testcase_6_2()
-# testcase['testcase_6_3'] = testcase_6_3()
+# testcase['testcase_6_1'] = testcase_6_1() # pass
+# testcase['testcase_6_2'] = testcase_6_2() # pass
+# testcase['testcase_6_3'] = testcase_6_3() # pass
 # testcase['testcase_7_1'] = testcase_7_1()
 # testcase['testcase_7_2'] = testcase_7_2()
 # testcase['testcase_7_3'] = testcase_7_3()

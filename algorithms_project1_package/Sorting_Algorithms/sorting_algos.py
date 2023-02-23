@@ -29,38 +29,120 @@ def is_less(d1, d2, columns):
         except:
             return False
 
+def is_less_or_equal(d1, d2, columns):
+    cur_idx = 0
+    while(True):
+        try:
+            if d1[columns[cur_idx]] < d2[columns[cur_idx]]:
+                return True
+            elif d1[columns[cur_idx]] == d2[columns[cur_idx]]:
+                cur_idx += 1
+            else:
+                return False
+        except:
+            return True
+
 # Quick Sort
 # https://www.geeksforgeeks.org/python-program-for-quicksort/
 # based of ^
-def pivot_element(arr, low, high, columns):
-    pivot = arr[high]
-    i = low-1
+# def pivot_element(arr, low, high, columns):
+#     pivot = arr[high]
+#     i = low-1
 
-    for j in range(low, high):
-        # if arr[j][columns[0]] < pivot[columns[0]]:
-        if is_less(arr[j], pivot, columns): # ^
-            i = i+1
+#     for j in range(low, high):
+#         # if arr[j][columns[0]] < pivot[columns[0]]:
+#         if is_less(arr[j], pivot, columns): # ^
+#             i = i+1
+#             arr[i], arr[j] = arr[j], arr[i]
+
+#     arr[i + 1], arr[high] = arr[high], arr[i + 1]
+
+#     return i+1
+
+# def quicksort_recursive(arr, low, high, columns):
+#     if low < high:
+#         # Find pivot element such that
+#         # element smaller than pivot are on the left
+#         # element greater than pivot are on the right
+#         pi = pivot_element(arr, low, high, columns)
+#         # Recursive call on the left of pivot
+#         quicksort_recursive(arr, low, pi - 1, columns)
+#         # Recursive call on the right of pivot
+#         quicksort_recursive(arr, pi + 1, high, columns)
+
+# def quicksort(arr, columns):
+#     n = len(arr)
+#     quicksort_recursive(arr, 0, n - 1, columns)
+#     return arr
+
+
+
+def partition(arr, l, h, columns):
+    i = ( l - 1 )
+    x = arr[h]
+  
+    for j in range(l, h):
+        if is_less_or_equal(arr[j], x, columns):
+            # increment index of smaller element
+            i = i + 1
             arr[i], arr[j] = arr[j], arr[i]
-
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-
-    return i+1
-
-def quicksort_recursive(arr, low, high, columns):
-    if low < high:
-        # Find pivot element such that
-        # element smaller than pivot are on the left
-        # element greater than pivot are on the right
-        pi = pivot_element(arr, low, high, columns)
-        # Recursive call on the left of pivot
-        quicksort_recursive(arr, low, pi - 1, columns)
-        # Recursive call on the right of pivot
-        quicksort_recursive(arr, pi + 1, high, columns)
+  
+    arr[i + 1], arr[h] = arr[h], arr[i + 1]
+    return (i + 1)
+  
+# Function to do Quick sort
+# arr[] --> Array to be sorted,
+# l  --> Starting index,
+# h  --> Ending index
+def quickSortIterative(arr, l, h, columns):
+    # Create an auxiliary stack
+    size = h - l + 1
+    stack = [0] * (size)
+  
+    # initialize top of stack
+    top = -1
+  
+    # push initial values of l and h to stack
+    top = top + 1
+    stack[top] = l
+    top = top + 1
+    stack[top] = h
+  
+    # Keep popping from stack while is not empty
+    while top >= 0:
+  
+        # Pop h and l
+        h = stack[top]
+        top = top - 1
+        l = stack[top]
+        top = top - 1
+  
+        # Set pivot element at its correct position in
+        # sorted array
+        p = partition(arr, l, h, columns)
+  
+        # If there are elements on left side of pivot,
+        # then push left side to stack
+        if p-1 > l:
+            top = top + 1
+            stack[top] = l
+            top = top + 1
+            stack[top] = p - 1
+  
+        # If there are elements on right side of pivot,
+        # then push right side to stack
+        if p + 1 < h:
+            top = top + 1
+            stack[top] = p + 1
+            top = top + 1
+            stack[top] = h
 
 def quicksort(arr, columns):
     n = len(arr)
-    quicksort_recursive(arr, 0, n - 1, columns)
+    quickSortIterative(arr, 0, n - 1, columns)
     return arr
+
+
 
 # Selection Sort
 def selection_sort(arr, columns):
@@ -141,7 +223,7 @@ def shell_sort(arr, columns):
 def merge(arr, left, right, columns):
     i=j=k=0       
     while i < len(left) and j < len(right):
-        if is_less(left[i], right[j], columns):
+        if is_less_or_equal(left[i], right[j], columns):
             arr[k]=left[i]
             i+=1
         else:
@@ -242,6 +324,3 @@ def sorting_algorithms(file_path, columns, select):
 
 def data_filtering(a, b):
     return []
-
-
-print(sorting_algorithms("imdb_dataset.csv", ['startYear'], 3))
