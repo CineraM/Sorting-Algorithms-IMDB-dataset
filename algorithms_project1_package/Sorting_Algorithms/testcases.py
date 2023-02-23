@@ -2,6 +2,10 @@ from sorting_algos import sorting_algorithms
 from sorting_algos import data_filtering
 import json
 
+
+# import sys
+# sys.setrecursionlimit(10**6)
+
 total=0
 f=0
 
@@ -13,13 +17,13 @@ def testcase_1_1():
     global f
     sorted_testcase_1_1 = sorting_algorithms("testcases_1_2_df.csv", ['startYear'], 1)
 
-    with open(r'out_test.txt', 'w') as fp:
-        for item in sorted_testcase_1_1[1]:
-            fp.write("%s\n" % item)
+    # with open(r'out_test.txt', 'w') as fp:
+    #     for item in sorted_testcase_1_1[1]:
+    #         fp.write("%s\n" % item)
 
-    with open(r'.txt', 'w') as fp:
-        for item in sorted_testcase_1_1[1]:
-            fp.write("%s\n" % item)
+    # with open(r'.txt', 'w') as fp:
+    #     for item in sorted_testcase_1_1[1]:
+    #         fp.write("%s\n" % item)
     # for i in range(len(sorted_testcase_1_1[1])):
     #         if sorted_testcase_1_1[1][i] != data["testcase_1_1"][1][i]:
     #             print(f'sort: {sorted_testcase_1_1[1][i]}, test: {data["testcase_1_1"][1][i]}')
@@ -177,11 +181,7 @@ def testcase_4_3():
 def testcase_5_1():
     global total
     global f
-    testcase_5_1 = sorting_algorithms("imdb_dataset.csv", ['startYear', 'tconst'], 5)
-
-    for i in range(len(testcase_5_1[1])):
-        if testcase_5_1[1][i] != data["testcase_1_1"][1][i]:
-            print(f'i: {i}, sort: {testcase_5_1[1][i]}, test: {data["testcase_1_1"][1][i]}')
+    testcase_5_1 = sorting_algorithms("imdb_dataset.csv", ['startYear'], 5)
 
     if(data["testcase_5_1"][1]==testcase_5_1[1]):
         print("\nTestCase 5_1 Passed and your Algorithm Time Complexity = {}".format(testcase_5_1[0]))
@@ -207,6 +207,12 @@ def testcase_5_3():
     global total
     global f
     testcase_5_3 = sorting_algorithms("imdb_dataset.csv", ['primaryTitle'], 5)
+
+    for i in range(len(testcase_5_3[1])):
+            if testcase_5_3[1][i] != data["testcase_5_3"][1][i]:
+                print(f'i:{i}, sort:{testcase_5_3[1][i]}, test:{data["testcase_5_3"][1][i]}')
+
+
     if(data["testcase_5_3"][1]==testcase_5_3[1]):
         print("\nTestCase 5_3 Passed and your Algorithm Time Complexity = {}".format(testcase_5_3[0]))
     else:
@@ -599,21 +605,21 @@ data_filtering("imdb_dataset.csv", 2)
 data_filtering("imdb_dataset.csv", 3)
 data_filtering("imdb_dataset.csv", 4)
 testcase = {}
-# testcase['testcase_1_1'] = testcase_1_1()
-# testcase['testcase_1_2'] = testcase_1_2()
-# testcase['testcase_1_3'] = testcase_1_3()
-# testcase['testcase_2_1'] = testcase_2_1()
-# testcase['testcase_2_2'] = testcase_2_2()
-# testcase['testcase_2_3'] = testcase_2_3()
+# testcase['testcase_1_1'] = testcase_1_1() # pass
+# testcase['testcase_1_2'] = testcase_1_2() # pass
+# testcase['testcase_1_3'] = testcase_1_3() # pass
+# testcase['testcase_2_1'] = testcase_2_1() # pass
+# testcase['testcase_2_2'] = testcase_2_2() # pass
+# testcase['testcase_2_3'] = testcase_2_3() # pass
 # testcase['testcase_3_1'] = testcase_3_1()
 # testcase['testcase_3_2'] = testcase_3_2()
 # testcase['testcase_3_3'] = testcase_3_3()
 # testcase['testcase_4_1'] = testcase_4_1()
 # testcase['testcase_4_2'] = testcase_4_2()
 # testcase['testcase_4_3'] = testcase_4_3()
-testcase['testcase_5_1'] = testcase_5_1()
-# testcase['testcase_5_2'] = testcase_5_2()
-# testcase['testcase_5_3'] = testcase_5_3()
+# testcase['testcase_5_1'] = testcase_5_1() # pass
+# testcase['testcase_5_2'] = testcase_5_2() # pass
+# testcase['testcase_5_3'] = testcase_5_3() # pass
 # testcase['testcase_6_1'] = testcase_6_1()
 # testcase['testcase_6_2'] = testcase_6_2()
 # testcase['testcase_6_3'] = testcase_6_3()

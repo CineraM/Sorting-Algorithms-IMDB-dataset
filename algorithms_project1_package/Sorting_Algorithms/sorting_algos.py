@@ -62,7 +62,6 @@ def quicksort(arr, columns):
     quicksort_recursive(arr, 0, n - 1, columns)
     return arr
 
-
 # Selection Sort
 def selection_sort(arr, columns):
     n = len(arr)
@@ -199,10 +198,9 @@ def get_col_indx(columns):
 
 def sorting_algorithms(file_path, columns, select):
     column_vals = get_col_indx(columns)
-    # data = list(csv.reader(open(file_path)))
-    # data.pop(0) # remove the headers of the array
-
-    data = pd.read_csv('testcases_1_2_df.csv')
+    data = pd.read_csv(file_path)
+    # "   Ironman" to     "Ironman"
+    data['primaryTitle'] = data['primaryTitle'].str.strip() 
     data = data.values.tolist()
 
     if(select==1):
@@ -244,3 +242,6 @@ def sorting_algorithms(file_path, columns, select):
 
 def data_filtering(a, b):
     return []
+
+
+print(sorting_algorithms("imdb_dataset.csv", ['startYear'], 3))
