@@ -21,11 +21,9 @@ def testcase_1_1():
         for item in sorted_testcase_1_1[1]:
             fp.write("%s\n" % item)
     # for i in range(len(sorted_testcase_1_1[1])):
-    #     try:
     #         if sorted_testcase_1_1[1][i] != data["testcase_1_1"][1][i]:
     #             print(f'sort: {sorted_testcase_1_1[1][i]}, test: {data["testcase_1_1"][1][i]}')
-    #     except:
-    #         pass
+
 
     if(data["testcase_1_1"][1]==sorted_testcase_1_1[1]):
         print("TestCase 1_1 Passed and your Algorithm Time Complexity = {}".format(sorted_testcase_1_1[0]))
@@ -180,6 +178,11 @@ def testcase_5_1():
     global total
     global f
     testcase_5_1 = sorting_algorithms("imdb_dataset.csv", ['startYear'], 5)
+
+    for i in range(len(testcase_5_1[1])):
+        if testcase_5_1[1][i] != data["testcase_1_1"][1][i]:
+            print(f'i: {i}, sort: {testcase_5_1[1][i]}, test: {data["testcase_1_1"][1][i]}')
+
     if(data["testcase_5_1"][1]==testcase_5_1[1]):
         print("\nTestCase 5_1 Passed and your Algorithm Time Complexity = {}".format(testcase_5_1[0]))
     else:
@@ -609,8 +612,8 @@ testcase = {}
 # testcase['testcase_4_2'] = testcase_4_2()
 # testcase['testcase_4_3'] = testcase_4_3()
 testcase['testcase_5_1'] = testcase_5_1()
-testcase['testcase_5_2'] = testcase_5_2()
-testcase['testcase_5_3'] = testcase_5_3()
+# testcase['testcase_5_2'] = testcase_5_2()
+# testcase['testcase_5_3'] = testcase_5_3()
 # testcase['testcase_6_1'] = testcase_6_1()
 # testcase['testcase_6_2'] = testcase_6_2()
 # testcase['testcase_6_3'] = testcase_6_3()
