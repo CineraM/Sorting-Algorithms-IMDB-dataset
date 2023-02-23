@@ -177,7 +177,7 @@ def testcase_4_3():
 def testcase_5_1():
     global total
     global f
-    testcase_5_1 = sorting_algorithms("imdb_dataset.csv", ['startYear'], 5)
+    testcase_5_1 = sorting_algorithms("imdb_dataset.csv", ['startYear', 'tconst'], 5)
 
     for i in range(len(testcase_5_1[1])):
         if testcase_5_1[1][i] != data["testcase_1_1"][1][i]:

@@ -1,0 +1,13 @@
+
+
+tconst,primaryTitle,originalTitle,startYear,runtimeMinutes,genres,averageRating,numVotes,ordering,category,job,seasonNumber,episodeNumber,primaryName,birthYear,deathYear,primaryProfession
+
+tt44126803,The Acceptance Speech    ,The Acceptance Speech  ,2020,  27,"Comedy,Drama"           ,8.0,422,9,writer,executive story editor,2,7,Jas Waters,1980,2020,"writer,assistant_director"
+
+tt90559553,A Seat on the Rocket     ,A Seat on the Rocket   ,2020,  29,"Comedy,Drama"           ,7.9,406,8,writer,written by,2,8,Jas Waters,1980,2020,"writer,assistant_director"
+
+tt18723537,The Nightingale Pledge   ,The Nightingale Pledge ,2020,  30,"Comedy,Drama"           ,8.7,493,8,writer,executive story editor,2,9,Jas Waters,1980,2020,"writer,assistant_director"
+
+tt37702332,The Puppet Dalai Lama    ,The Puppet Dalai Lama  ,2020,  30,"Comedy,Drama"           ,9.0,673,7,writer,executive story editor,2,10,Jas Waters,1980,2020,"writer,assistant_director"
+
+tt22987455,Loop                     ,Loop                   ,2020,  8, "Animation,Comedy,Drama" ,6.7,2566,6,writer,story by,1,6,Adam Burke,1971,2018,"animation_department,visual_effects,writer"
