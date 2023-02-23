@@ -1,6 +1,7 @@
 import csv
 import time
 import json
+import pandas as pd
 
 """
 Note : For test cases 7-10, you need to extract the required data (filter on conditions mentioned above)
@@ -60,6 +61,7 @@ def quicksort(arr, columns):
     n = len(arr)
     quicksort_recursive(arr, 0, n - 1, columns)
     return arr
+
 
 # Selection Sort
 def selection_sort(arr, columns):
@@ -191,14 +193,17 @@ def insertion_sort(arr, columns):
 
 #columns: a list of integers representing the columns to sort the 2D array on
 def get_col_indx(columns):
-    list = [0] 
+    list = [] 
     for i in columns: list.append(column_names.index(i))
     return list
 
 def sorting_algorithms(file_path, columns, select):
     column_vals = get_col_indx(columns)
-    data = list(csv.reader(open(file_path)))
-    data.pop(0) # remove the headers of the array
+    # data = list(csv.reader(open(file_path)))
+    # data.pop(0) # remove the headers of the array
+
+    data = pd.read_csv('testcases_1_2_df.csv')
+    data = data.values.tolist()
 
     if(select==1):
         start_time = time.time()
@@ -237,5 +242,5 @@ def sorting_algorithms(file_path, columns, select):
         time_in_seconds = end_time - start_time
         return [time_in_seconds, list(map(lambda x: x[0], output_list))]
 
-def data_filtering():
-    pass
+def data_filtering(a, b):
+    return []
