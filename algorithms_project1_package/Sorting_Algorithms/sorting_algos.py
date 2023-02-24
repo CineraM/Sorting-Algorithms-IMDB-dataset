@@ -43,105 +43,35 @@ def is_less_or_equal(d1, d2, columns):
             return True
 
 # Quick Sort
-# https://www.geeksforgeeks.org/python-program-for-quicksort/
-# based of ^
-# def pivot_element(arr, low, high, columns):
-#     pivot = arr[high]
-#     i = low-1
+def pivot_element(arr, low, high, columns):
+    pivot = arr[high]
+    i = low - 1
 
-#     for j in range(low, high):
-#         # if arr[j][columns[0]] < pivot[columns[0]]:
-#         if is_less(arr[j], pivot, columns): # ^
-#             i = i+1
-#             arr[i], arr[j] = arr[j], arr[i]
-
-#     arr[i + 1], arr[high] = arr[high], arr[i + 1]
-
-#     return i+1
-
-# def quicksort_recursive(arr, low, high, columns):
-#     if low < high:
-#         # Find pivot element such that
-#         # element smaller than pivot are on the left
-#         # element greater than pivot are on the right
-#         pi = pivot_element(arr, low, high, columns)
-#         # Recursive call on the left of pivot
-#         quicksort_recursive(arr, low, pi - 1, columns)
-#         # Recursive call on the right of pivot
-#         quicksort_recursive(arr, pi + 1, high, columns)
-
-# def quicksort(arr, columns):
-#     n = len(arr)
-#     quicksort_recursive(arr, 0, n - 1, columns)
-#     return arr
-
-
-
-def partition(arr, l, h, columns):
-    i = ( l - 1 )
-    x = arr[h]
-  
-    for j in range(l, h):
-        if is_less_or_equal(arr[j], x, columns):
-            # increment index of smaller element
+    for j in range(low, high):
+        if is_less_or_equal(arr[j], pivot, columns):
             i = i + 1
-            arr[i], arr[j] = arr[j], arr[i]
-  
-    arr[i + 1], arr[h] = arr[h], arr[i + 1]
-    return (i + 1)
-  
-# Function to do Quick sort
-# arr[] --> Array to be sorted,
-# l  --> Starting index,
-# h  --> Ending index
-def quickSortIterative(arr, l, h, columns):
-    # Create an auxiliary stack
-    size = h - l + 1
-    stack = [0] * (size)
-  
-    # initialize top of stack
-    top = -1
-  
-    # push initial values of l and h to stack
-    top = top + 1
-    stack[top] = l
-    top = top + 1
-    stack[top] = h
-  
-    # Keep popping from stack while is not empty
-    while top >= 0:
-  
-        # Pop h and l
-        h = stack[top]
-        top = top - 1
-        l = stack[top]
-        top = top - 1
-  
-        # Set pivot element at its correct position in
-        # sorted array
-        p = partition(arr, l, h, columns)
-  
-        # If there are elements on left side of pivot,
-        # then push left side to stack
-        if p-1 > l:
-            top = top + 1
-            stack[top] = l
-            top = top + 1
-            stack[top] = p - 1
-  
-        # If there are elements on right side of pivot,
-        # then push right side to stack
-        if p + 1 < h:
-            top = top + 1
-            stack[top] = p + 1
-            top = top + 1
-            stack[top] = h
+            # Swapping element at i with element at j
+            (arr[i], arr[j]) = (arr[j], arr[i])
+ 
+    # Swap the pivot element with the greater element specified by i
+    (arr[i + 1], arr[high]) = (arr[high], arr[i + 1])
+ 
+    # Return the position from where partition is done
+    return i + 1
+
+def quicksort_recursive(array, low, high, columns):
+    if low < high:
+        pi = pivot_element(array, low, high, columns)
+ 
+        quicksort_recursive(array, low, pi - 1, columns)
+ 
+        quicksort_recursive(array, pi + 1, high, columns)
+        
 
 def quicksort(arr, columns):
     n = len(arr)
-    quickSortIterative(arr, 0, n - 1, columns)
+    quicksort_recursive(arr, 0, n - 1, columns)
     return arr
-
 
 
 # Selection Sort
@@ -200,7 +130,7 @@ def heap_sort(arr, columns):
 # Shell Sort
 def shell_sort(arr, columns):
     n = len(arr)
-    gap = int(n/2)
+    gap = n//2
  
     while gap > 0:
  
@@ -213,8 +143,7 @@ def shell_sort(arr, columns):
                 j -= gap
  
             arr[j] = key
-        gap /= 2
-        gap = int(gap)
+        gap //= 2
     
     return arr
 
@@ -272,6 +201,61 @@ def insertion_sort(arr, columns):
     
     return arr
 
+def data_filtering(filepath, select):
+    data = pd.read_csv(filepath)
+    if (select == 1):
+        
+        new_data = []
+        data = data.values.tolist()
+        for i in data:
+            if int(i[3]) >= 1941 and int(i[3]) <= 1955:
+                new_data.append(i)
+
+        df = pd.DataFrame(new_data, columns=column_names)
+        df.set_index('tconst', inplace=True)
+        df.to_csv('imdb_years_df.csv', sep=',')
+        
+    elif(select == 2):
+        genres = ['Adventure', 'Drama']
+        new_data = []
+        data = data.values.tolist()
+        for i in data:
+            if i[5] in genres:
+                new_data.append(i)
+
+        df = pd.DataFrame(new_data, columns=column_names)
+        df.set_index('tconst', inplace=True)
+        df.to_csv('imdb_genres_df.csv', sep=',')
+
+    elif(select == 3):
+        new_data = []
+        profession = ['assistant_director', 'casting_director', 'art_director', 'cinematographer']
+        data = data.values.tolist()
+        for i in data:
+            for p in profession:
+                if p in i[16]:
+                    new_data.append(i)
+                    break
+
+        df = pd.DataFrame(new_data, columns=column_names)
+        df.set_index('tconst', inplace=True)
+        df.to_csv('imdb_professions_df.csv', sep=',')
+
+    elif(select == 4):
+        vowel = 'aeiouAEIOU'
+        new_data = []
+        data = data.values.tolist()
+        
+        for i in data:
+            if i[13][0] in vowel:
+                new_data.append(i)
+
+        df = pd.DataFrame(new_data, columns=column_names)
+        df.set_index('tconst', inplace=True)
+        df.to_csv('imdb_vowel_names_df.csv', sep=',')
+
+
+
 #columns: a list of integers representing the columns to sort the 2D array on
 def get_col_indx(columns):
     list = [] 
@@ -321,6 +305,3 @@ def sorting_algorithms(file_path, columns, select):
         end_time = time.time()
         time_in_seconds = end_time - start_time
         return [time_in_seconds, list(map(lambda x: x[0], output_list))]
-
-def data_filtering(a, b):
-    return []
