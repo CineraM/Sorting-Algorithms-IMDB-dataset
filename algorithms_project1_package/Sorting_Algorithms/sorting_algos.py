@@ -2,6 +2,7 @@ import csv
 import time
 import json
 import pandas as pd
+import sys
 
 """
 Note : For test cases 7-10, you need to extract the required data (filter on conditions mentioned above)
@@ -41,8 +42,9 @@ def is_less_or_equal(d1, d2, columns):
                 return False
         except:
             return True
-
-# Quick Sort
+        
+# https://www.geeksforgeeks.org/python-program-for-quicksort/
+# Quick Sort recursive
 def pivot_element(arr, low, high, columns):
     pivot = arr[high]
     i = low - 1
@@ -69,9 +71,62 @@ def quicksort_recursive(array, low, high, columns):
         
 
 def quicksort(arr, columns):
+    sys.setrecursionlimit(10**6)
     n = len(arr)
     quicksort_recursive(arr, 0, n - 1, columns)
     return arr
+
+# https://www.geeksforgeeks.org/iterative-quick-sort/
+# iterative quicksort
+# def partition(arr, l, h, columns):
+#     i = ( l - 1 )
+#     x = arr[h]
+  
+#     for j in range(l, h):
+#         if is_less_or_equal(arr[j], x, columns):
+#             i = i + 1
+#             arr[i], arr[j] = arr[j], arr[i]
+  
+#     arr[i + 1], arr[h] = arr[h], arr[i + 1]
+#     return (i + 1)
+  
+# def quickSortIterative(arr, l, h, columns):
+#     size = h - l + 1
+#     stack = [0] * (size)
+  
+#     top = -1
+  
+#     top = top + 1
+#     stack[top] = l
+#     top = top + 1
+#     stack[top] = h
+  
+#     while top >= 0:
+  
+#         # Pop h and l
+#         h = stack[top]
+#         top = top - 1
+#         l = stack[top]
+#         top = top - 1
+  
+#         p = partition( arr, l, h, columns)
+  
+#         if p-1 > l:
+#             top = top + 1
+#             stack[top] = l
+#             top = top + 1
+#             stack[top] = p - 1
+  
+#         if p + 1 < h:
+#             top = top + 1
+#             stack[top] = p + 1
+#             top = top + 1
+#             stack[top] = h
+
+# def quicksort(arr, columns):
+#     n = len(arr)
+#     quickSortIterative(arr, 0, n-1, columns)
+#     return arr
 
 
 # Selection Sort
@@ -82,8 +137,7 @@ def selection_sort(arr, columns):
     for i in range(0, n):
         min_idx = i
         for j in range(i+1, n):
-            # if arr[j][columns[0]] <= arr[min_idx][columns[0]]:
-            if is_less(arr[j], arr[min_idx], columns):#^
+            if is_less(arr[j], arr[min_idx], columns):
                 min_idx = j
             
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
