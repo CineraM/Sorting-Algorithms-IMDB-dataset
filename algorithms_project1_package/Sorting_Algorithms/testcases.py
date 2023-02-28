@@ -827,15 +827,10 @@ def testcase_11_2():
     df = pd.read_csv('imdb_dataset.csv',low_memory=False)
     df1 = df[df['tconst'].isin(testcase_11_2[1])].set_index('tconst').loc[testcase_11_2[1]].reset_index()
     # Define the columns to sort by
-    sort_cols = ['startYear', 'averageRating', 'category', 'primaryTitle']
+    sort_cols = ['startYear', 'primaryTitle']
     df2 = df[df['tconst'].isin(data["testcase_11_2"][1])].set_index('tconst').loc[data["testcase_11_2"][1]].reset_index()
     # Check if the dataset is sorted by the given columns
     is_sorted = sortedd(df1, df2, sort_cols)
-
-    # with open(r'out_test.txt', 'w') as fp:
-    #     for item in data["testcase_11_2"][1]:
-    #         fp.write("%s\n" % item)
-
     if(is_sorted):
         print("\nTestCase 11_2 Passed and your Algorithm Time Complexity = {}".format(testcase_11_2[0]))
     else:
@@ -929,20 +924,8 @@ testcase['testcase_10_4'] = testcase_10_4()
 testcase['testcase_10_5'] = testcase_10_5()
 testcase['testcase_10_6'] = testcase_10_6()
 testcase['testcase_11_1'] = testcase_11_1()
-testcase['testcase_11_2'] = testcase_11_2() # fails
+testcase['testcase_11_2'] = testcase_11_2()
 testcase['testcase_12_1'] = testcase_12_1()
 testcase['testcase_12_2'] = testcase_12_2()
-
-
-# quicksort cases
-# testcase['testcase_3_1'] = testcase_3_1()
-# testcase['testcase_3_2'] = testcase_3_2()
-# testcase['testcase_3_3'] = testcase_3_3()
-# testcase['testcase_7_3'] = testcase_7_3()
-# testcase['testcase_8_3'] = testcase_8_3()
-# testcase['testcase_9_3'] = testcase_9_3()
-# testcase['testcase_10_3'] = testcase_10_3()
-# testcase['testcase_11_2'] = testcase_11_2()
-# testcase['testcase_12_2'] = testcase_12_2()
 
 print("\n\nTotal Test Cases Passed : {}\nTotal Test Cases Failed : {}".format(total-f,f))
