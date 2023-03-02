@@ -1,6 +1,4 @@
-import csv
 import time
-import json
 import pandas as pd
 import sys
 sys.setrecursionlimit(10**6)
@@ -185,7 +183,7 @@ def insertion_sort(arr, columns):
         
         key = arr[i]
         j = i-1
-        # key[columns[0]] < arr[j][columns[0]]
+        
         while j >= 0 and lessThan(key, arr[j], columns):
                 arr[j+1] = arr[j]
                 j -= 1
