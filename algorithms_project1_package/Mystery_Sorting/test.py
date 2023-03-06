@@ -1,52 +1,28 @@
-import pandas as pd
+                else:
+                    data = pd.read_csv(path2, header=None)
+                    data = data.values.tolist()
 
+                    temp_arr = half_of_file(path, True) + data[half:]
+                    merge_sort(temp_arr, column_vals)
+                    save_to_csv(temp_arr, "min.csv")
 
-def half_of_file(path, isLower):
-    data = pd.read_csv(path, header=None)
-    data = data.values.tolist()
-    if isLower:
-        return data[0:1000]
-    else:
-        return data[1000:2000]
-    
-file_name = "Individual/Sorted_"
+                    temp_arr = half_of_file(path, False) + data[:half]
+                    merge_sort(temp_arr, column_vals)
+                    save_to_csv(temp_arr, "max.csv")
+                    
+                    data = pd.read_csv("min.csv", header=None)
+                    data = data.values.tolist()
+                    data = data[:half]
+                    
+                    data2 = pd.read_csv("max.csv", header=None)
+                    data2 = data2.values.tolist()
+                    data2 = data[:half]
+                    
+                    temp_arr =  data + data2
+                    merge_sort(temp_arr, column_vals)
+                    save_to_csv(temp_arr, path)
 
-data = pd.read_csv("Individual/Sorted_92.csv", header=None)
-data = data.values.tolist()
-
-
-data2 = pd.read_csv("Individual/Sorted_93.csv", header=None)
-data2 = data2.values.tolist()
-# data = data[999: 2000]
-
-# data1 = data[0:1000]
-# data2 = data[1000:2000]
-
-# print(len(data1))
-# print(data1)
-
-
-temp_arr = data[0:1735] + data2[0:265]
-arr = [1, 2, 4, 5, 6, 7, 8]
-
-print(arr[10:])
-
-
-
-
-'''
-for i to 93
-    for j to 93
-
-    
-1250
-
-
-1000
-
-
-2000
-265    
-    
-'''
-
+                    temp_arr = ith_of_file("max.csv", half, half+size_of_last_file)
+                    merge_sort(temp_arr, column_vals)
+                    save_to_csv(temp_arr, path2)
+                    data, data2 = [], []
