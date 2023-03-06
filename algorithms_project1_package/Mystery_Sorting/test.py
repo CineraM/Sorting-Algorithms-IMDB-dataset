@@ -27,11 +27,9 @@ data2 = data2.values.tolist()
 
 
 temp_arr = data[0:1735] + data2[0:265]
+arr = [1, 2, 4, 5, 6, 7, 8]
 
-
-print(len(data[1735:2000]))
-print(len(data2[0:265]))
-print(len(temp_arr))
+print(arr[10:])
 
 
 

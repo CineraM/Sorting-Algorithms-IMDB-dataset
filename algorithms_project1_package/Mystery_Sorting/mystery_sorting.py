@@ -134,51 +134,82 @@ def save_to_csv(arr, path):
     df = pd.DataFrame(arr)
     df.to_csv(path, sep=',', index=False, header=False)
 
+
 def Mystery_Function(file_path, memory_limitation, columns):
     column_vals = get_col_indx(columns)
 
-    # for i in range(1, 94):
-    #     src = file_path + "/Sorted_" + str(i) + ".csv"
-    #     dst = "Final/Sorted_" + str(i) + ".csv"
-    #     data = pd.read_csv(src, header=None)
-    #     data = data.values.tolist()
-    #     merge_sort(data, column_vals)
-    #     save_to_csv(data, dst)
+    for i in range(1, 94):
+        src = file_path + "/Sorted_" + str(i) + ".csv"
+        dst = "Final/Sorted_" + str(i) + ".csv"
+        data = pd.read_csv(src, header=None)
+        data = data.values.tolist()
+        merge_sort(data, column_vals)
+        save_to_csv(data, dst)
 
     # 2 temp files, max, min, temp?
-
     
-    idx_check = {}
-    for i in range(1,94):
-        idx_check[i] = 0
+    for i in range(1, 93):
+        print(i)
+        for j in range(i+1, 94):
+            
+            path  = "Final/Sorted_" + str(i) + '.csv'
+            path2 = "Final/Sorted_" + str(j) + '.csv'
+            
+            if j != 93:
+                temp_arr = half_of_file(path, True) + half_of_file(path2, True)
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, "min.csv")
 
-    path = "Final/Sorted_1.csv"
-    arr = []
+                temp_arr = half_of_file(path, False) + half_of_file(path2, False)
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, "max.csv")
 
-    i = 1
-    while len(arr) != 2000:
-        print(len(arr))
-        min = ith_of_file(path, idx_check[1], idx_check[1]+1)
-        min = min[0]
-        min_idx = 1
-        for i in range(1,93):
-            if idx_check[i] > 1999: continue
-            path = "Final/Sorted_" + str(i) + ".csv"
-            cur = ith_of_file(path, idx_check[i], idx_check[i]+1)
-            cur = cur[0]
-            if greaterThan(min, cur, column_vals):                
-                min = cur
-                min_idx = i
+                temp_arr = half_of_file("min.csv", True) + half_of_file("max.csv", True)
+                save_to_csv(temp_arr, path)
 
-        arr.append(min)
-        idx_check[min_idx]+=1
+                temp_arr = half_of_file("max.csv", False) + half_of_file("max.csv", False)
+                save_to_csv(temp_arr, path2)
+                
+            else:
+                data = pd.read_csv(path2, header=None)
+                data = data.values.tolist()
 
-    save_to_csv(cur, "temp.csv") 
-    #     path = "Final/Sorted_" + str(i) + ".csv"
-    #     cur_list += ith_of_file(path, 0, 21)
+                temp_arr = half_of_file(path, True) + data[1000:]
+                # print(len(temp_arr))
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, "min.csv")
 
-    # for i in range(1,94):
-    #    if len(cur_list) == 2000: break 
+                temp_arr = half_of_file(path, False) + data[:1000]
+                # print(len(temp_arr))
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, "max.csv")
+                
+                data = pd.read_csv("min.csv", header=None)
+                data = data.values.tolist()
+                data = data[:1000]
+                
+                data2 = pd.read_csv("max.csv", header=None)
+                data2 = data2.values.tolist()
+                data2 = data[:1000]
+
+                
+                temp_arr =  data + data2
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, path)
+                data, data2 = [], []
+
+                temp_arr = ith_of_file("max.csv", 1000, 1265)
+                merge_sort(temp_arr, column_vals)
+                save_to_csv(temp_arr, path2)
+            
+        data = pd.read_csv("Final/Sorted_" + str(i) + '.csv', header=None)
+        data = data.values.tolist()
+        merge_sort(data, column_vals)
+        save_to_csv(data, path)
+    data = pd.read_csv("Final/Sorted_" + str(93) + '.csv', header=None)
+    data = data.values.tolist()
+    merge_sort(data, column_vals)
+    save_to_csv(data, path)
 
 
 Mystery_Function("Individual", 2000, ['tconst', 'startYear','runtimeMinutes' ,'primaryTitle'])
@@ -203,73 +234,3 @@ Mystery_Function("Individual", 2000, ['tconst', 'startYear','runtimeMinutes' ,'p
 
 #Test Case 15
 #Mystery_Function(file_path="Individual", 2000, ['startYear','runtimeMinutes' ,'primaryTitle'])
-
-
-
-'''
-
-def Mystery_Function(file_path, memory_limitation, columns):
-    column_vals = get_col_indx(columns)
-
-    # for i in range(1, 94):
-    #     src = file_path + "/Sorted_" + str(i) + ".csv"
-    #     dst = "Final/Sorted_" + str(i) + ".csv"
-    #     data = pd.read_csv(src, header=None)
-    #     data = data.values.tolist()
-    #     merge_sort(data, column_vals)
-    #     save_to_csv(data, dst)
-
-    # 2 temp files, max, min, temp?
-    i = 1
-    for j in range(i+1, 94):
-        
-        path  = "Final/Sorted_" + str(i) + '.csv'
-        path2 = "Final/Sorted_" + str(j) + '.csv'
-        
-        if j != 93:
-            arr1, arr2 = half_of_file(path, True), half_of_file(path2, True)
-            target_idx = -1
-
-            for idx in range(1000):
-                if greaterThan(arr1[idx], arr2[idx], column_vals):
-                    target_idx = idx
-                    break
-            
-            arr1, arr2 = half_of_file(path, False), half_of_file(path2, False)
-            if target_idx == -1:
-                for idx in range(1000):
-                    if greaterThan(arr1[idx], arr2[idx], column_vals):
-                        target_idx = idx
-                        break
-
-            if target_idx == -1: continue
-
-            temp_arr = ith_of_file(path, 0, target_idx) + ith_of_file(path2, 0, 2000-target_idx) # min values
-            insertion_sort(temp_arr, column_vals)
-            save_to_csv(temp_arr, "temp.csv")
-
-            
-            temp_arr = ith_of_file(path, target_idx, 2000) + ith_of_file(path2, 2000-target_idx, 2000) # min values
-            insertion_sort(temp_arr, column_vals)
-            save_to_csv(temp_arr, path2)
-
-            # temp_arr = arr1 + arr2 # min values
-            # merge_sort(temp_arr, column_vals)
-            # save_to_csv(temp_arr, "temp.csv")
-
-            # temp_arr = half_of_file(path, True) + half_of_file(path2, True)
-            # merge_sort(temp_arr, column_vals)
-            # save_to_csv(temp_arr, path2)
-
-            shutil.copyfile("temp.csv", path) # copy temp into path
-        else:
-            temp_arr = ith_of_file(path, 0, target_idx) + ith_of_file(path2, 0, 265) 
-            merge_sort(temp_arr, column_vals)
-            save_to_csv(temp_arr, "temp.csv")
-
-            temp_arr = ith_of_file(path, 1735, 2000)
-            merge_sort(temp_arr, columns)
-            save_to_csv(temp_arr, path2)
-
-            shutil.copyfile("temp.csv", path) # copy temp into path
-'''
