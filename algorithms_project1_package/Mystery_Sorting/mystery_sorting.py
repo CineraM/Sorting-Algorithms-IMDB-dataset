@@ -251,7 +251,7 @@ def Mystery_Function(file_path, memory_limitation, columns):
     print(f'Execution time: {(time.time() - init_time):.2f} seconds')
 
     # add headers to all files, done after sorting
-    for i in range(1, 94):
+    for i in range(1, num_of_files+1):
         path = 'Final/Sorted_' + str(i) + '.csv'
         data = pd.read_csv(path, header=None)
         data = data.values.tolist()
@@ -270,7 +270,7 @@ def Mystery_Function(file_path, memory_limitation, columns):
 # data_chuncks('imdb_dataset.csv', ['primaryTitle'], 2000)
 
 #Test Case 15
-data_chuncks('imdb_dataset.csv', ['startYear','runtimeMinutes' ,'primaryTitle'], 2000)
+data_chuncks('imdb_dataset.csv', ['startYear','runtimeMinutes' ,'primaryTitle'], 7453)
 
 
 #Test Case 13
@@ -280,4 +280,4 @@ data_chuncks('imdb_dataset.csv', ['startYear','runtimeMinutes' ,'primaryTitle'],
 # Mystery_Function("Individual", 2000, ['primaryTitle'])
 
 #Test Case 15
-Mystery_Function("Individual", 2000, ['startYear','runtimeMinutes' ,'primaryTitle'])
+Mystery_Function("Individual", 7453, ['startYear','runtimeMinutes' ,'primaryTitle'])
